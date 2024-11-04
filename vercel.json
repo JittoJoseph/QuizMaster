@@ -5,9 +5,7 @@
 			"destination": "/api/$1"
 		}
 	],
-	"functions": {
-		"api/**/*": {
-			"runtime": "edge"
-		}
+	"edge": {
+		"runtime": "@vercel/edge@1.1.2"
 	}
 }

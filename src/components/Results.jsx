@@ -75,41 +75,33 @@ const Results = ({
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex flex-col">
-			{isExcellentScore && (
-				<Confetti
-					recycle={false}
-					numberOfPieces={300}
-					gravity={0.3}
-					colors={googleColors}
-					tweenDuration={5000}
-					width={window.innerWidth}
-					height={window.innerHeight}
-				/>
-			)}
+		<div className="min-h-screen bg-background flex flex-col">
+			{isExcellentScore && <Confetti />}
 
 			{/* Header */}
-			<div className="px-4 md:px-8 py-6">
-				<div className="flex items-center space-x-2">
-					<div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-						<span className="text-white font-bold text-xl">Q</span>
+			<nav className="px-4 md:px-8 py-4 bg-white/50 backdrop-blur-sm">
+				<div className="container mx-auto flex justify-between items-center">
+					<div className="flex items-center space-x-4">
+						<div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+							<span className="text-white font-bold text-2xl">QM</span>
+						</div>
+						<h1 className="text-3xl font-bold text-primary">QuizMaster</h1>
 					</div>
-					<h1 className="text-2xl font-bold text-blue-800">QuizzLab</h1>
 				</div>
-			</div>
+			</nav>
 
-			{/* Results Card */}
+			{/* Main Content */}
 			<div className="flex-grow flex items-center justify-center px-4 md:px-8 py-8">
 				<div className="w-full max-w-lg">
-					<div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-						<h2 className="text-3xl font-bold text-blue-900 mb-6">Quiz Complete!</h2>
+					<div className="bg-white/90 backdrop-blur-sm rounded-lg p-8 shadow-lg border border-accent">
+						<h2 className="text-3xl font-bold text-primary mb-6">Quiz Complete!</h2>
 
 						{/* Score Circle */}
 						<div className="w-48 h-48 mx-auto mb-8 relative">
 							<div className="absolute inset-0 flex items-center justify-center">
 								<div className="text-center">
-									<div className="text-5xl font-bold text-blue-600">{percentage}%</div>
-									<div className="text-blue-800 mt-2">Score</div>
+									<div className="text-5xl font-bold text-primary">{percentage}%</div>
+									<div className="text-primary/70 mt-2">Score</div>
 								</div>
 							</div>
 							<svg className="w-full h-full" viewBox="0 0 100 100">
@@ -118,7 +110,7 @@ const Results = ({
 									cy="50"
 									r="45"
 									fill="none"
-									stroke="#EBF5FF"
+									stroke="#FFE0B2"
 									strokeWidth="10"
 								/>
 								<circle
@@ -126,7 +118,7 @@ const Results = ({
 									cy="50"
 									r="45"
 									fill="none"
-									stroke="#2563EB"
+									stroke="#D84315"
 									strokeWidth="10"
 									strokeDasharray={`${percentage * 2.83} 283`}
 									transform="rotate(-90 50 50)"
@@ -136,15 +128,15 @@ const Results = ({
 
 						{/* Stats */}
 						<div className="grid grid-cols-2 gap-4 mb-8">
-							<div className="bg-blue-50 rounded-xl p-4">
-								<div className="text-blue-800">Correct Answers</div>
-								<div className="text-2xl font-bold text-blue-900">
+							<div className="bg-accent/20 rounded-xl p-4">
+								<div className="text-primary/70">Correct Answers</div>
+								<div className="text-2xl font-bold text-primary">
 									{score} / {totalQuestions}
 								</div>
 							</div>
-							<div className="bg-blue-50 rounded-xl p-4">
-								<div className="text-blue-800">Topic</div>
-								<div className="text-2xl font-bold text-blue-900 truncate">
+							<div className="bg-accent/20 rounded-xl p-4">
+								<div className="text-primary/70">Topic</div>
+								<div className="text-2xl font-bold text-primary truncate">
 									{topic}
 								</div>
 							</div>
@@ -154,19 +146,19 @@ const Results = ({
 						<div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3">
 							<button
 								onClick={() => onNavigate('welcome')}
-								className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+								className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
 							>
 								Back to Home
 							</button>
 							<button
 								onClick={() => onNavigate('profile')}
-								className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+								className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
 							>
 								View Profile
 							</button>
 							<button
 								onClick={onNewQuiz}
-								className="px-6 py-3 border-2 border-blue-600 text-blue-700 bg-transparent rounded-lg hover:bg-blue-50 transition-colors"
+								className="px-6 py-3 border-2 border-primary text-primary bg-transparent rounded-lg hover:bg-accent/20 transition-colors"
 							>
 								New Quiz
 							</button>
@@ -175,21 +167,21 @@ const Results = ({
 						{/* Auth/Save Section */}
 						<div className="mt-6 space-y-4">
 							{!user ? (
-								<div className="p-4 bg-blue-50 rounded-lg text-center">
-									<p className="text-blue-800 mb-2">Sign in to save your progress</p>
+								<div className="p-4 bg-accent/20 rounded-lg text-center">
+									<p className="text-primary mb-2">Sign in to save your progress</p>
 									<button
 										onClick={handleSignIn}
-										className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+										className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
 									>
 										Sign in with Google
 									</button>
 								</div>
 							) : saving ? (
-								<div className="text-blue-600 font-medium text-center">
+								<div className="text-primary font-medium text-center">
 									Saving your result...
 								</div>
 							) : saved ? (
-								<div className="text-green-600 font-medium text-center">
+								<div className="text-primary font-medium text-center">
 									Result saved successfully!
 								</div>
 							) : null}

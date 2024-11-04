@@ -40,3 +40,4 @@ sketch
 /overview.txt
 /.env
 .vercel
+.env*.local

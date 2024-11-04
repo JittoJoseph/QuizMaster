@@ -1,7 +1,7 @@
 // src/components/QuizInterface.jsx
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CheckCircle, XCircle } from 'lucide-react'; // Add this import
+import { CheckCircle, XCircle } from 'lucide-react';
 
 const QuizInterface = ({
 	question,
@@ -13,14 +13,14 @@ const QuizInterface = ({
 	const [selectedAnswer, setSelectedAnswer] = useState(null);
 	const [answered, setAnswered] = useState(false);
 	const [showExplanation, setShowExplanation] = useState(false);
-	const [score, setScore] = useState(0); // Add score state
+	const [score, setScore] = useState(0);
 
 	const handleNext = () => {
 		if (selectedAnswer === null) return;
 
 		const isCorrect = selectedAnswer === question.correct;
 		if (isCorrect) {
-			setScore(prev => prev + 1); // Update score
+			setScore(prev => prev + 1);
 		}
 		onAnswerSubmit(isCorrect);
 		setSelectedAnswer(null);
@@ -56,78 +56,90 @@ const QuizInterface = ({
 	if (!question) return null;
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex flex-col">
+		<div className="min-h-screen bg-background flex flex-col">
 			{/* Header with Progress */}
-			<div className="px-4 md:px-8 py-4 bg-white/50 backdrop-blur-sm shadow-sm">
+			<nav className="px-4 md:px-8 py-4 bg-white/50 backdrop-blur-sm">
 				<div className="container mx-auto">
-					<div className="flex justify-between items-center">
-						<div className="flex items-center space-x-2">
-							<div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-								<span className="text-white font-bold text-xl">Q</span>
+					<div className="flex justify-between items-center mb-4">
+						<div className="flex items-center space-x-4">
+							<div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+								<span className="text-white font-bold text-2xl">QM</span>
 							</div>
-							<span className="text-blue-900 font-semibold">
-								Question {currentQuestion + 1}/{totalQuestions}
-							</span>
+							<h1 className="text-3xl font-bold text-primary">QuizMaster</h1>
 						</div>
-						<div className="flex items-center space-x-2">
-							<span className="text-blue-900 font-semibold">Score:</span>
-							<span className="text-blue-900 font-medium">{score}/{totalQuestions}</span>
+						<div className="flex items-center space-x-6 text-primary/70">
+							<div className="flex items-center space-x-2">
+								<span className="font-medium">Score:</span>
+								<span className="px-3 py-1 bg-primary/10 rounded-full font-semibold">
+									{score}/{totalQuestions}
+								</span>
+							</div>
+							<div>
+								Question {currentQuestion + 1} of {totalQuestions}
+							</div>
 						</div>
 					</div>
+
 					{/* Progress Bar */}
-					<div className="w-full h-2 bg-blue-100 rounded-full mt-4">
+					<div className="w-full h-2 bg-accent/30 rounded-full overflow-hidden">
 						<div
-							className="h-full bg-blue-600 rounded-full transition-all duration-300"
+							className="h-full bg-primary transition-all duration-300 rounded-full"
 							style={{ width: `${((currentQuestion + 1) / totalQuestions) * 100}%` }}
-						></div>
+						/>
 					</div>
 				</div>
-			</div>
+			</nav>
 
-			{/* Question Content */}
-			<div className="flex-grow flex items-center px-4 md:px-8 py-8">
-				<div className="container mx-auto max-w-3xl">
-					<div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 space-y-6">
-						<h2 className="text-xl md:text-2xl text-blue-900 font-semibold">
+			{/* Main Content - Centered */}
+			<div className="flex-grow container mx-auto px-4 md:px-8 py-8 flex items-center justify-center">
+				<div className="w-full max-w-3xl">
+					<div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-accent">
+						{/* Question */}
+						<h2 className="text-2xl font-bold text-primary mb-6">
 							{question.question}
 						</h2>
 
-						<div className="space-y-3">
+						{/* Options */}
+						<div className="space-y-4">
 							{question.options.map((option, index) => (
 								<button
 									key={index}
-									onClick={() => handleAnswerSelect(index)}
-									disabled={answered}
-									className={`w-full p-4 text-left rounded-xl transition-all bg-transparent
-										${getOptionClass(index)}
-										text-blue-900 font-medium`}
+									onClick={() => {
+										if (!answered) {
+											setSelectedAnswer(index);
+											setAnswered(true);
+										}
+									}}
+									className={`w-full p-4 rounded-lg border-2 transition-all duration-200 text-left bg-transparent
+										${answered
+											? index === question.correct
+												? 'bg-green-50 border-green-500'
+												: index === selectedAnswer
+													? 'bg-red-50 border-red-500'
+													: 'opacity-50 border-transparent'
+											: selectedAnswer === index
+												? 'bg-accent/20 border-accent'
+												: 'hover:bg-accent/10 border-transparent'
+										}`}
 								>
 									<div className="flex items-center space-x-3">
-										<span className="w-8 h-8 rounded-full bg-blue-600/10 flex items-center justify-center text-blue-600 font-semibold">
+										<span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
 											{String.fromCharCode(65 + index)}
 										</span>
-										<span>{option}</span>
+										<span className="text-primary/90">{option}</span>
 										{answered && getAnswerIcon(index)}
 									</div>
 								</button>
 							))}
 						</div>
 
-						{answered && (
-							<div className="mt-4 p-4 bg-blue-50 rounded-lg">
-								<div className="text-blue-900 font-medium">
-									{selectedAnswer === question.correct ?
-										'✨ Correct!' : '❌ Incorrect'}
-								</div>
-							</div>
-						)}
-
-						<div className="flex justify-end pt-6">
+						{/* Next Button */}
+						<div className="mt-6 flex justify-end">
 							<button
 								onClick={handleNext}
 								disabled={selectedAnswer === null}
-								className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
-									transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+								className="px-6 py-3 bg-primary text-white rounded-lg text-lg font-medium 
+									hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
 							>
 								{currentQuestion + 1 === totalQuestions ? 'Finish' : 'Next'}
 							</button>
@@ -140,12 +152,7 @@ const QuizInterface = ({
 };
 
 QuizInterface.propTypes = {
-	question: PropTypes.shape({
-		question: PropTypes.string.isRequired,
-		options: PropTypes.arrayOf(PropTypes.string).isRequired,
-		correct: PropTypes.number.isRequired,
-		explanation: PropTypes.string
-	}),
+	question: PropTypes.object.isRequired,
 	currentQuestion: PropTypes.number.isRequired,
 	totalQuestions: PropTypes.number.isRequired,
 	onAnswerSubmit: PropTypes.func.isRequired,
