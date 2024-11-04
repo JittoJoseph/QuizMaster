@@ -1,8 +1,32 @@
+const shuffleArray = (array) => {
+	// Create index map to track original positions
+	const indexMap = array.map((_, i) => i);
+
+	// Fisher-Yates shuffle
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+		[indexMap[i], indexMap[j]] = [indexMap[j], indexMap[i]];
+	}
+	return { shuffled: array, indexMap };
+};
+
 const validateResponse = (data) => {
 	if (!data?.questions?.length) {
 		throw new Error('Invalid response format from API');
 	}
-	return data;
+
+	// Shuffle options for each question
+	const shuffledQuestions = data.questions.map(question => {
+		const { shuffled, indexMap } = shuffleArray([...question.options]);
+		return {
+			...question,
+			options: shuffled,
+			correct: indexMap.indexOf(question.correct) // Fix: Find where original correct index went
+		};
+	});
+
+	return { questions: shuffledQuestions };
 };
 
 const generateQuestions = async (topic, difficulty) => {
