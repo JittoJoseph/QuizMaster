@@ -10,10 +10,9 @@ const generateQuestions = async (topic, difficulty) => {
 		const systemMessage = `You are a helpful assistant. Respond with pure JSON format without any additional text or formatting. The JSON should be structured as follows: {"questions":[{"question":"","options":["","","",""],"correct":0}]}.`;
 		const userMessage = `Generate 10 multiple choice questions about ${topic} at ${difficulty} level.`;
 
-		const response = await fetch('https://api.sambanova.ai/v1/chat/completions', {
+		const response = await fetch('/api/chat', {
 			method: 'POST',
 			headers: {
-				'Authorization': `Bearer ${import.meta.env.VITE_SAMBANOVA_API_KEY}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
