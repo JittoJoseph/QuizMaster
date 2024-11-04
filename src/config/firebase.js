@@ -5,13 +5,14 @@ import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-	authDomain: "quizzyai-691e2.firebaseapp.com",
-	projectId: "quizzyai-691e2",
-	storageBucket: "quizzyai-691e2.firebasestorage.app",
-	messagingSenderId: "537841551762",
-	appId: "1:537841551762:web:c19b1d3fd83edc402cd94b",
-	measurementId: "G-6P17J1FMQY"
+	authDomain: "quizmaster-3e02c.firebaseapp.com",
+	projectId: "quizmaster-3e02c",
+	storageBucket: "quizmaster-3e02c.firebasestorage.app",
+	messagingSenderId: "6288920088",
+	appId: "1:6288920088:web:13f423bd26be3256a03d6d",
+	measurementId: "G-XWR6XLJJY2"
 };
+
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
