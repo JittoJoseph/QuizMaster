@@ -75,25 +75,31 @@ const Results = ({
 	};
 
 	return (
-		<div className="min-h-screen bg-background flex flex-col">
-			{isExcellentScore && <Confetti />}
+		<div className="min-h-screen bg-background flex flex-col overflow-hidden">
+			{isExcellentScore && (
+				<div className="fixed inset-0 pointer-events-none">
+					<Confetti
+						width={window.innerWidth}
+						height={window.innerHeight}
+						recycle={false}
+						numberOfPieces={200}
+					/>
+				</div>
+			)}
 
-			{/* Header */}
-			<nav className="px-4 md:px-8 py-4 bg-white/50 backdrop-blur-sm">
+			{/* Header - Hidden on mobile, visible on sm and up */}
+			<nav className="hidden sm:block px-4 md:px-8 py-4 bg-white/50 backdrop-blur-sm">
 				<div className="container mx-auto flex justify-between items-center">
-					<div className="flex items-center space-x-4">
-						<div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-							<span className="text-white font-bold text-2xl">QM</span>
-						</div>
-						<h1 className="text-3xl font-bold text-primary">QuizMaster</h1>
+					<div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+						<span className="text-white font-bold text-2xl">QM</span>
 					</div>
 				</div>
 			</nav>
 
 			{/* Main Content */}
-			<div className="flex-grow flex items-center justify-center px-4 md:px-8 py-8">
-				<div className="w-full max-w-lg">
-					<div className="bg-white/90 backdrop-blur-sm rounded-lg p-8 shadow-lg border border-accent">
+			<div className="flex-grow flex items-center justify-center">
+				<div className="w-full max-w-lg mx-auto px-4">
+					<div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-accent">
 						<h2 className="text-3xl font-bold text-primary mb-6">Quiz Complete!</h2>
 
 						{/* Score Circle */}
@@ -127,7 +133,7 @@ const Results = ({
 						</div>
 
 						{/* Stats */}
-						<div className="grid grid-cols-2 gap-4 mb-8">
+						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 px-4 sm:px-0">
 							<div className="bg-accent/20 rounded-xl p-4">
 								<div className="text-primary/70">Correct Answers</div>
 								<div className="text-2xl font-bold text-primary">
@@ -143,22 +149,22 @@ const Results = ({
 						</div>
 
 						{/* Actions */}
-						<div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3">
+						<div className="flex flex-col gap-3 px-4 sm:px-0 sm:flex-row sm:justify-center sm:space-x-3">
 							<button
 								onClick={() => onNavigate('welcome')}
-								className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+								className="w-full sm:w-auto px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
 							>
 								Back to Home
 							</button>
 							<button
 								onClick={() => onNavigate('profile')}
-								className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+								className="w-full sm:w-auto px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
 							>
 								View Profile
 							</button>
 							<button
 								onClick={onNewQuiz}
-								className="px-6 py-3 border-2 border-primary text-primary bg-transparent rounded-lg hover:bg-accent/20 transition-colors"
+								className="w-full sm:w-auto px-6 py-3 border-2 border-primary text-primary bg-transparent rounded-lg hover:bg-accent/20 transition-colors"
 							>
 								New Quiz
 							</button>

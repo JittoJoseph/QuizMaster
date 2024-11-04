@@ -61,22 +61,22 @@ const QuizInterface = ({
 			<nav className="px-4 md:px-8 py-4 bg-white/50 backdrop-blur-sm">
 				<div className="container mx-auto">
 					<div className="flex justify-between items-center mb-4">
-						<div className="flex items-center space-x-4">
-							<div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-								<span className="text-white font-bold text-2xl">QM</span>
-							</div>
-							<h1 className="text-3xl font-bold text-primary">QuizMaster</h1>
+						{/* Left - Icon */}
+						<div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+							<span className="text-white font-bold text-2xl">QM</span>
 						</div>
-						<div className="flex items-center space-x-6 text-primary/70">
-							<div className="flex items-center space-x-2">
-								<span className="font-medium">Score:</span>
-								<span className="px-3 py-1 bg-primary/10 rounded-full font-semibold">
-									{score}/{totalQuestions}
-								</span>
-							</div>
-							<div>
-								Question {currentQuestion + 1} of {totalQuestions}
-							</div>
+
+						{/* Center - Score */}
+						<div className="flex items-center space-x-2">
+							<span className="font-medium text-primary/70">Score:</span>
+							<span className="px-3 py-1 bg-primary/10 rounded-full font-semibold text-primary/70">
+								{score}/{totalQuestions}
+							</span>
+						</div>
+
+						{/* Right - Question Counter */}
+						<div className="text-primary/70">
+							Question {currentQuestion + 1} of {totalQuestions}
 						</div>
 					</div>
 
