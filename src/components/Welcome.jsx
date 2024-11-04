@@ -41,30 +41,38 @@ const Welcome = ({ onStartClick, onNavigate }) => {
 						<h1 className="text-3xl font-bold text-primary">QuizMaster</h1>
 					</div>
 
-					<div className="relative" ref={dropdownRef}>
+					<div className="relative">
+						{/* Account button and dropdown */}
 						<button
-							onClick={user ? () => setShowDropdown(!showDropdown) : handleAuth}
-							className="px-6 py-3 bg-transparent border-2 border-primary rounded-lg 
-    hover:bg-primary/10 transition-colors flex items-center space-x-2 
-    text-primary font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/50"
+							onClick={() => user ? setShowDropdown(!showDropdown) : handleAuth()}
+							className="flex items-center space-x-2 text-primary/90 hover:text-secondary transition-colors bg-transparent border border-accent hover:border-secondary"
 						>
-							{user ? (
-								<>
-									<UserCircle className="w-8 h-8" />
-									<span>{user.displayName}</span>
-								</>
-							) : (
-								<span>Sign In</span>
-							)}
+							<UserCircle className="h-6 w-6" />
+							<span>{user ? 'Account' : 'Sign In'}</span>
 						</button>
-						{showDropdown && (
-							<div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
-								<button
-									onClick={logout}
-									className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-								>
-									Sign Out
-								</button>
+
+						{showDropdown && user && (
+							<div
+								ref={dropdownRef}
+								className="absolute right-0 mt-2 w-48 rounded-md border border-accent bg-white/90 backdrop-blur-sm shadow-lg"
+							>
+								<div className="py-1">
+									<button
+										onClick={() => {
+											setShowDropdown(false);
+											onNavigate('profile');
+										}}
+										className="block w-full px-4 py-2 text-left text-sm text-primary/90 hover:bg-accent/20 transition-colors bg-transparent"
+									>
+										My Profile
+									</button>
+									<button
+										onClick={logout}
+										className="block w-full px-4 py-2 text-left text-sm text-primary/90 hover:bg-accent/20 transition-colors bg-transparent"
+									>
+										Sign Out
+									</button>
+								</div>
 							</div>
 						)}
 					</div>
@@ -97,7 +105,7 @@ const Welcome = ({ onStartClick, onNavigate }) => {
 
 Welcome.propTypes = {
 	onStartClick: PropTypes.func.isRequired,
-	onNavigate: PropTypes.func.isRequired,
+	onNavigate: PropTypes.func.isRequired
 };
 
 export default Welcome;

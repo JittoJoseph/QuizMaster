@@ -1,17 +1,19 @@
-export async function generateQuestions(topic, difficulty) {
-	try {
-		const apiKey = import.meta.env.VITE_SAMBANOVA_API_KEY;
-		if (!apiKey) {
-			throw new Error('SambaNova API key is not configured');
-		}
+const validateResponse = (data) => {
+	if (!data?.questions?.length) {
+		throw new Error('Invalid response format from API');
+	}
+	return data;
+};
 
+const generateQuestions = async (topic, difficulty) => {
+	try {
 		const systemMessage = `You are a helpful assistant. Respond with pure JSON format without any additional text or formatting. The JSON should be structured as follows: {"questions":[{"question":"","options":["","","",""],"correct":0}]}.`;
 		const userMessage = `Generate 10 multiple choice questions about ${topic} at ${difficulty} level.`;
 
 		const response = await fetch('https://api.sambanova.ai/v1/chat/completions', {
 			method: 'POST',
 			headers: {
-				'Authorization': `Bearer ${apiKey}`,
+				'Authorization': `Bearer ${import.meta.env.VITE_SAMBANOVA_API_KEY}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
@@ -25,43 +27,24 @@ export async function generateQuestions(topic, difficulty) {
 						role: 'user',
 						content: userMessage
 					}
-				]
+				],
+				temperature: 0.1,
+				top_p: 0.1
 			})
 		});
 
 		if (!response.ok) {
-			throw new Error('Failed to fetch from SambaNova API');
+			throw new Error(`API request failed: ${response.status}`);
 		}
 
-		const result = await response.json();
-		if (!result?.choices?.[0]?.message?.content) {
-			throw new Error('No response from AI');
-		}
+		const data = await response.json();
+		const parsedData = JSON.parse(data.choices[0].message.content);
+		return validateResponse(parsedData);
 
-		let text = result.choices[0].message.content.trim();
-		text = text
-			.replace(/[\u201C\u201D\u2018\u2019]/g, '"')
-			.replace(/```json\s*|\s*```/g, '')
-			.replace(/\n/g, '')
-			.replace(/,\s*([}\]])/g, '$1')
-			.replace(/([{,]\s*)(\w+)(:)/g, '$1"$2"$3')
-			.trim();
-
-		if (!text.startsWith('{') || !text.endsWith('}')) {
-			throw new Error('Invalid JSON structure in AI response');
-		}
-
-		try {
-			const parsed = JSON.parse(text);
-			if (!parsed.questions || !Array.isArray(parsed.questions)) {
-				throw new Error('Invalid response structure: missing questions array');
-			}
-			return parsed;
-		} catch (error) {
-			throw new Error('Failed to parse JSON');
-		}
 	} catch (error) {
 		console.error('Error generating questions:', error);
-		throw error;
+		throw new Error(`Failed to fetch questions: ${error.message}`);
 	}
-}
+};
+
+export { generateQuestions };
