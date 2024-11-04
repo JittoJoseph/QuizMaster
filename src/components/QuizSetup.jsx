@@ -74,9 +74,12 @@ const QuizSetup = ({ onSubmit }) => {
 						<button
 							type="submit"
 							disabled={isLoading}
-							className="w-full px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors"
+							className="w-full px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors flex items-center justify-center space-x-2"
 						>
-							{isLoading ? 'Generating...' : 'Generate Quiz'}
+							{isLoading && (
+								<div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+							)}
+							<span>{isLoading ? 'Generating...' : 'Generate Quiz'}</span>
 						</button>
 					</form>
 				</div>

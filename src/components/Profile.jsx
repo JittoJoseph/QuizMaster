@@ -82,9 +82,9 @@ const Profile = ({ onNavigate }) => {
 	const CustomTooltip = ({ active, payload, label }) => {
 		if (active && payload && payload.length) {
 			return (
-				<div className="bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-blue-100">
-					<p className="text-blue-900 font-semibold mb-1">{label}</p>
-					<p className="text-blue-600">Score: {payload[0].value}</p>
+				<div className="bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-accent">
+					<p className="text-primary font-semibold mb-1">{label}</p>
+					<p className="text-primary/70">Score: {payload[0].value}</p>
 				</div>
 			);
 		}
@@ -190,8 +190,8 @@ const Profile = ({ onNavigate }) => {
 				</div>
 
 				{history.length > 0 && (
-					<div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg mt-8">
-						<h3 className="text-xl font-bold text-blue-900 mb-6">Performance Overview</h3>
+					<div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg mt-8 border border-accent">
+						<h3 className="text-xl font-bold text-primary mb-6">Performance Overview</h3>
 						<div className="h-[400px] -mx-6 sm:mx-0"> {/* Negative margin on mobile */}
 							<ResponsiveContainer width="100%" height="100%">
 								<AreaChart
@@ -205,22 +205,24 @@ const Profile = ({ onNavigate }) => {
 								>
 									<defs>
 										<linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
-											<stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
-											<stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+											<stop offset="5%" stopColor="#FF7043" stopOpacity={0.2} />
+											<stop offset="95%" stopColor="#FF7043" stopOpacity={0} />
 										</linearGradient>
 									</defs>
-									<CartesianGrid strokeDasharray="3 3" stroke="#EFF6FF" />
+									<CartesianGrid strokeDasharray="3 3" stroke="#FFCC80" opacity={0.2} />
 									<XAxis
 										dataKey="name"
-										stroke="#1E40AF"
+										stroke="#D84315"
 										fontSize={12}
 										tickMargin={10}
 										interval={0}
 										height={40} // Increased height for text
+										opacity={0.7}
 										className="hidden sm:block" // Hide on mobile, show on desktop
 									/>
 									<YAxis
-										stroke="#1E40AF"
+										stroke="#D84315"
+										opacity={0.7}
 										domain={[0, 10]}
 										ticks={[0, 2, 4, 6, 8, 10]}
 									/>
@@ -228,11 +230,12 @@ const Profile = ({ onNavigate }) => {
 									<Area
 										type="monotone"
 										dataKey="score"
-										stroke="#3B82F6"
-										strokeWidth={3}
+										stroke="#FF7043"
+										strokeWidth={2}
+										strokeOpacity={0.7}
 										fill="url(#scoreGradient)"
 										animationDuration={1000}
-										activeDot={{ r: 6, fill: "#2563EB" }}
+										activeDot={{ r: 6, fill: "#FF7043", opacity: 0.8 }}
 									/>
 								</AreaChart>
 							</ResponsiveContainer>

@@ -6,7 +6,6 @@ import QuizSetup from './components/QuizSetup';
 import QuizInterface from './components/QuizInterface';
 import Results from './components/Results';
 import Profile from './components/Profile';
-import Features from './components/Features';
 import { generateQuestions } from './services/ai.js';
 
 function App() {
