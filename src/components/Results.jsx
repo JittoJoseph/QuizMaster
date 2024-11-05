@@ -35,6 +35,7 @@ const CircleProgress = ({ percentage }) => (
 	</div>
 );
 
+
 const Results = ({
 	score,
 	totalQuestions,
@@ -49,10 +50,13 @@ const Results = ({
 	const [saved, setSaved] = useState(false);
 	const [isSigningIn, setIsSigningIn] = useState(false);
 	const { user, login } = useAuth();
+	const [showConfetti, setShowConfetti] = useState(true);
+	const [isGeneratingConfetti, setIsGeneratingConfetti] = useState(true);
 
 	const percentage = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
 	const isExcellentScore = percentage >= 90;
 	const googleColors = ['#4285F4', '#DB4437', '#F4B400', '#0F9D58'];
+
 
 	const saveResult = async (currentUser) => {
 		if (!currentUser || saving || saved) return;
@@ -95,6 +99,26 @@ const Results = ({
 		};
 	}, [user]);
 
+	useEffect(() => {
+		if (isExcellentScore) {
+			const timer = setTimeout(() => {
+				setShowConfetti(false);
+			}, 3000); // 3 seconds
+
+			return () => clearTimeout(timer);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (isExcellentScore) {
+			const timer = setTimeout(() => {
+				setIsGeneratingConfetti(false); // Stop generating new pieces
+			}, 3000);
+
+			return () => clearTimeout(timer);
+		}
+	}, []);
+
 	const handleViewProfile = async () => {
 		if (!user) {
 			try {
@@ -122,9 +146,9 @@ const Results = ({
 					<Confetti
 						width={window.innerWidth}
 						height={window.innerHeight}
-						recycle={false}
-						numberOfPieces={200}
 						colors={googleColors}
+						recycle={isGeneratingConfetti} // Only generate new pieces while true
+						numberOfPieces={200}
 					/>
 				</div>
 			)}
