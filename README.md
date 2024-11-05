@@ -1,10 +1,10 @@
-# QuizzLab 🎯
+# QuizMaster 🎯
 
-An AI-powered quiz generation platform that creates personalized learning experiences using Google's Gemini AI.
+An AI-powered quiz generation platform that creates personalized learning experiences using Meta's LLaMA 3.1 70B model through SambaNova's API.
 
 ## Features 
 
-- **AI-Powered Quiz Generation**: Create custom quizzes on any topic instantly
+- **AI-Powered Quiz Generation**: Create custom quizzes on any topic instantly using LLaMA 3.1
 - **Multiple Difficulty Levels**: Choose between Beginner, Intermediate, and Advanced
 - **Real-time Feedback**: Get immediate feedback on your answers
 - **Progress Tracking**: Track your learning journey with detailed statistics
@@ -15,22 +15,22 @@ An AI-powered quiz generation platform that creates personalized learning experi
 
 - React 18 + Vite
 - Firebase (Auth + Firestore)
-- Google Gemini AI
+- SambaNova API (Meta LLaMA 3.1)
 - TailwindCSS
 
 ## Setup 
 
 ### Prerequisites
 - Node.js 16+ installed
-- A Google Cloud account for Gemini API
+- A SambaNova account for LLaMA API access
 - A Firebase account
 
 ### Installation Steps
 
 1. Clone the repository
 ```bash
-git clone https://github.com/JittoJoseph/QuizzLab.git
-cd QuizzLab
+git clone https://github.com/yourusername/QuizMaster.git
+cd QuizMaster
 ```
 
 2. Install dependencies
