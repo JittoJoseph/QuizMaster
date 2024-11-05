@@ -1,19 +1,11 @@
 {
+	"buildCommand": "npm run build",
+	"outputDirectory": "dist",
+	"framework": "vite",
 	"rewrites": [
 		{
 			"source": "/api/(.*)",
 			"destination": "/api/$1"
 		}
-	],
-	"buildCommand": "npm run build",
-	"outputDirectory": "dist",
-	"devCommand": "npm run dev",
-	"framework": "vite",
-	"functions": {
-		"api/**/*": {
-			"runtime": "@vercel/edge@1.1.0",
-			"memory": 1024,
-			"maxDuration": 10
-		}
-	}
+	]
 }

@@ -20,7 +20,7 @@ export default async function handler(req) {
 	const response = await fetch('https://api.sambanova.ai/v1/chat/completions', {
 		method: 'POST',
 		headers: {
-			'Authorization': `Bearer ${process.env.VITE_SAMBANOVA_API_KEY}`,
+			'Authorization': `Bearer ${process.env.SAMBANOVA_API_KEY}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(body)
