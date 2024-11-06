@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CheckCircle, XCircle } from 'lucide-react';
 
+
 const QuizInterface = ({
 	question,
 	currentQuestion,
@@ -110,17 +111,26 @@ const QuizInterface = ({
 											setAnswered(true);
 										}
 									}}
-									className={`w-full p-4 rounded-lg border-2 transition-all duration-200 text-left bg-transparent
-										${answered
+									className={`
+      w-full 
+      p-4 
+      rounded-lg 
+      transition-all 
+      duration-200 
+      text-left 
+      bg-transparent
+      hover:bg-accent/10
+      ${answered
 											? index === question.correct
-												? 'bg-green-50 border-green-500'
-												: index === selectedAnswer
-													? 'bg-red-50 border-red-500'
-													: 'opacity-50 border-transparent'
+												? 'border-2 border-green-500'
+												: selectedAnswer === index
+													? 'border-2 border-red-500'
+													: 'border-0'
 											: selectedAnswer === index
-												? 'bg-accent/20 border-accent'
-												: 'hover:bg-accent/10 border-transparent'
-										}`}
+												? 'border-2 border-primary'
+												: 'border-0'
+										}
+    `}
 								>
 									<div className="flex items-center space-x-3">
 										<span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
