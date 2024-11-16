@@ -39,7 +39,7 @@
 Clone the repository to your local machine using:
 
 ```bash
-git clone https://github.com/yourusername/QuizMaster.git
+git clone https://github.com/JittoJoseph/QuizMaster.git
 cd QuizMaster
 ```
 
