@@ -6,7 +6,11 @@ import {
 	query,
 	where,
 	getDocs,
-	orderBy
+	orderBy,
+	deleteDoc,
+	limit,
+	doc,
+	writeBatch
 } from 'firebase/firestore';
 import {
 	GoogleAuthProvider,
@@ -66,5 +70,56 @@ export const getUserHistory = async (userId) => {
 	} catch (error) {
 		console.error('Get history error:', error);
 		throw error;
+	}
+};
+
+export const cleanupOldQuizzes = async (userId) => {
+	try {
+		const quizRef = collection(db, 'quizResults');
+
+		const q = query(
+			quizRef,
+			where('userId', '==', userId),
+			orderBy('timestamp', 'desc')
+		);
+
+		const snapshot = await getDocs(q);
+		const quizzes = snapshot.docs.map(doc => ({
+			id: doc.id,
+			...doc.data(),
+			timestamp: doc.data().timestamp.toDate()
+		}));
+
+		if (quizzes.length <= 10) return quizzes;
+
+		// Process deletions in smaller batches
+		const toDelete = quizzes.slice(10);
+		const batchSize = 100; // Reduced batch size for better reliability
+
+		for (let i = 0; i < toDelete.length; i += batchSize) {
+			const batch = writeBatch(db);
+			const chunk = toDelete.slice(i, i + batchSize);
+
+			for (const quiz of chunk) {
+				// Verify ownership before adding to batch
+				if (quiz.userId === userId) {
+					const docRef = doc(db, 'quizResults', quiz.id);
+					batch.delete(docRef);
+				}
+			}
+
+			try {
+				await batch.commit();
+			} catch (error) {
+				console.warn(`Batch delete attempt failed: ${error.message}`);
+				// Continue with next batch despite errors
+			}
+		}
+
+		return quizzes.slice(0, 10);
+	} catch (error) {
+		console.error('Cleanup operation failed:', error);
+		// Return whatever we successfully fetched
+		return [];
 	}
 };

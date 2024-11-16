@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../context/AuthContext';
-import { getUserHistory } from '../services/firebase';
+import { getUserHistory, cleanupOldQuizzes } from '../services/firebase';
 import { ArrowLeft, Trophy, Star, Circle } from 'lucide-react'; // Add icons import
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -39,7 +39,9 @@ const Profile = ({ onNavigate }) => {
 	useEffect(() => {
 		const fetchHistory = async () => {
 			try {
-				const results = await getUserHistory(user.uid);
+				setLoading(true);
+				// Clean up and get latest 10 quizzes
+				const results = await cleanupOldQuizzes(user.uid);
 				setHistory(results);
 			} catch (error) {
 				console.error('Failed to fetch history:', error);
@@ -48,7 +50,9 @@ const Profile = ({ onNavigate }) => {
 			}
 		};
 
-		fetchHistory();
+		if (user) {
+			fetchHistory();
+		}
 	}, [user]);
 
 	const getChartData = (history) => {
